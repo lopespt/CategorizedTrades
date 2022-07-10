@@ -1,3 +1,31 @@
-DROP TABLE IF EXISTS Trades;
-CREATE TABLE Trades(trade_id integer identity(1,1) primary key, value float(2), client_sector varchar(100));
+print 'Dropping Tables'
+DROP TABLE IF EXISTS dbo.Trades;
+DROP TABLE IF EXISTS dbo.ClientSectors;
+DROP TABLE IF EXISTS dbo.TradeRisks;
+
+print 'Creating ClientSectors Table'
+CREATE TABLE dbo.ClientSectors
+(
+    ClientSectorId integer identity (1,1) primary key,
+    Name           varchar(50) not null
+);
+
+print 'Creating TradeRisks Table'
+CREATE TABLE dbo.TradeRisks
+(
+    TradeRiskId integer identity (1,1) primary key,
+    Name           varchar(15) not null,
+    Description  varchar(200) not null
+);
+
+print 'Creating Trades Table'
+CREATE TABLE dbo.Trades
+(
+    TradeId        integer identity (1,1) primary key,
+    Value          money       not null,
+    ClientSectorId int         not null references dbo.ClientSectors (ClientSectorId),
+    TradeRiskId           integer null
+);
+
+
 
