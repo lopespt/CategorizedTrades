@@ -1,28 +1,26 @@
-CREATE OR ALTER PROCEDURE TradeClassfier
-AS 
-    DECLARE @id int
-    DECLARE @soma int
-    
-    set @soma=0
-    
-    DECLARE db_cursor CURSOR FOR 
-    SELECT trade_id from Trades
-    
-    OPEN db_cursor
-    FETCH NEXT FROM db_cursor INTO @id
-    WHILE @@FETCH_STATUS = 0
-    BEGIN
-        set @soma = @soma+@id    
-        FETCH NEXT FROM db_cursor into @id
-        END
-    
-    CLOSE db_cursor;
-    DEALLOCATE  db_cursor;
-    return @soma
-    ;
-GO
-declare @s int;
-exec @s = TradeClassfier;
-print @s;
-go
+CREATE OR ALTER PROCEDURE dbo.ClassifyTrades
+AS
+BEGIN
+    -- Rule for LowRisk Trades
+    UPDATE Trades
+    SET TradeRiskId=(select top 1 TradeRiskId from TradeRisks where Name = 'LOWRISK')
+    WHERE Value < 1000000
+      AND ClientSectorId = (select top 1 ClientSectorId from dbo.ClientSectors where Name = 'Public')
 
+
+    -- Rule for MediumRisk Trades
+    UPDATE Trades
+    SET TradeRiskId=(select top 1 TradeRiskId from TradeRisks where Name = 'MEDIUMRISK')
+    WHERE Value > 1000000
+      AND ClientSectorId = (select top 1 ClientSectorId from dbo.ClientSectors where Name = 'Public')
+
+    
+    -- Rule for HighRisk Trades
+    UPDATE Trades
+    SET TradeRiskId=(select top 1 TradeRiskId from TradeRisks where Name = 'HIGHRISK')
+    WHERE Value > 1000000
+      AND ClientSectorId = (select top 1 ClientSectorId from dbo.ClientSectors where Name = 'Private')
+END
+
+
+    
