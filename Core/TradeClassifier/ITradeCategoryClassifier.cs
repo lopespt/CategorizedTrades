@@ -1,4 +1,6 @@
-namespace Core;
+using Core.Entity;
+
+namespace Core.TradeClassifier;
 
 public interface ITradeCategoryClassifier
 {

@@ -1,4 +1,6 @@
-namespace Core.Rules;
+using Core.Entity;
+
+namespace Core.TradeCategoryRules;
 
 public class HighRiskRule : ITradeCategoryRule
 {

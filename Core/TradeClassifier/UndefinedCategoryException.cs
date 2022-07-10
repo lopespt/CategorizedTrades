@@ -1,6 +1,7 @@
 using System.Runtime.Serialization;
+using Core.Entity;
 
-namespace Core;
+namespace Core.TradeClassifier;
 
 [Serializable]
 public class UndefinedCategoryException : Exception

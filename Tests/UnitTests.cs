@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using System.Linq;
-using Core;
-using Core.Rules;
+using Core.Entity;
+using Core.TradeCategoryRules;
+using Core.TradeClassifier;
 using NUnit.Framework;
 
 namespace Tests;
@@ -30,12 +30,6 @@ public class Tests
         yield return new Trade {Value = 5021654, ClientSector = "Private"};
     }
     
-    
-    private IEnumerable<Trade> createPortfolio()
-    {
-        return createLowRiskTrades().Concat(createMediumRiskTrades()).Concat(createHighRiskTrades());
-    }
-
     [Test]
     public void TestLowRiskTradeRule()
     {
@@ -87,9 +81,9 @@ public class Tests
 
         TradeCategoryClassifier classifier = new TradeCategoryClassifier();
         
-        classifier.addRule(new HighRiskRule());
-        classifier.addRule(new MediumRiskRule());
-        classifier.addRule(new LowRiskRule());
+        classifier.AddRule(new HighRiskRule());
+        classifier.AddRule(new MediumRiskRule());
+        classifier.AddRule(new LowRiskRule());
 
         var output = classifier.ClassifyAll(portfolio);
 

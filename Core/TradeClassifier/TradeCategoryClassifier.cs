@@ -1,18 +1,21 @@
-namespace Core;
+using Core.Entity;
+using Core.TradeCategoryRules;
+
+namespace Core.TradeClassifier;
 
 public class TradeCategoryClassifier : ITradeCategoryClassifier
 {
-    private IList<ITradeCategoryRule> rules = new List<ITradeCategoryRule>();
+    private readonly IList<ITradeCategoryRule> _rules = new List<ITradeCategoryRule>();
 
-    public void addRule(ITradeCategoryRule rule)
+    public void AddRule(ITradeCategoryRule rule)
     {
-        rules.Add(rule);
+        _rules.Add(rule);
     }    
     
     
     public string Classify(ITrade trade)
     {
-        foreach (var rule in rules)
+        foreach (var rule in _rules)
             if (rule.Fulfills(trade))
                 return rule.Name;
 

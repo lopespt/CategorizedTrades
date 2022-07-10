@@ -1,4 +1,4 @@
-﻿namespace Core;
+﻿namespace Core.Entity;
 
 public interface ITrade
 {

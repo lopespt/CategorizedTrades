@@ -1,4 +1,6 @@
-namespace Core;
+using Core.Entity;
+
+namespace Core.TradeCategoryRules;
 
 public interface ITradeCategoryRule
 {
