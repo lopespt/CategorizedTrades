@@ -1,0 +1,46 @@
+@startuml
+interface ITrade{
+  + double Value { get; }
+  + string ClientSector { get; }
+}
+
+class Trade implements ITrade{
+  + double Value { get; set; }
+  + string ClientSector { get; set; }
+}
+
+interface ITradeCategoryRule{
+  + bool Fulfills(ITrade)
+}
+
+class LowRiskRule implements ITradeCategoryRule{
+  + bool Fulfills(ITrade trade)
+}
+class MediumRiskRule implements ITradeCategoryRule{
+  + bool Fulfills(ITrade trade)
+}
+class HighRiskRule implements ITradeCategoryRule{
+  + bool Fulfills(ITrade trade)
+}
+
+interface ITradeCategoryClassifier{
+    + string Classify(ITrade trade)
+    + List<string> ClassifyAll(List<ITrade> portfolio)
+}
+
+class TradeCategoryClassifier implements ITradeCategoryClassifier{
+    - IList<ITradeCategoryRule> _rules
+    + string Classify(ITrade trade)
+    + List<string> ClassifyAll(List<ITrade> portfolio)
+}
+
+TradeCategoryClassifier "1" o-- "many" ITradeCategoryRule 
+TradeCategoryClassifier --left ITrade
+
+note right of TradeCategoryClassifier::Classify
+  foreach (var rule in _rules)
+              if (rule.Fulfills(trade))
+                  return rule.Name;
+end note
+
+@enduml
