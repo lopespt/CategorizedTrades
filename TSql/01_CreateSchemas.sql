@@ -10,21 +10,12 @@ CREATE TABLE dbo.ClientSectors
     Name           varchar(50) not null
 );
 
-print 'Creating TradeRisks Table'
-CREATE TABLE dbo.TradeRisks
-(
-    TradeRiskId integer identity (1,1) primary key,
-    Name           varchar(15) not null,
-    Description  varchar(200) not null
-);
-
 print 'Creating Trades Table'
 CREATE TABLE dbo.Trades
 (
     TradeId        integer identity (1,1) primary key,
     Value          money       not null,
     ClientSectorId int         not null references dbo.ClientSectors (ClientSectorId),
-    TradeRiskId           integer null
 );
 
 
