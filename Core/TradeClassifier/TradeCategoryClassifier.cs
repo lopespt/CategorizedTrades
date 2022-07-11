@@ -5,7 +5,17 @@ namespace Core.TradeClassifier;
 
 public class TradeCategoryClassifier : ITradeCategoryClassifier
 {
-    private readonly IList<ITradeCategoryRule> _rules = new List<ITradeCategoryRule>();
+    private readonly IList<ITradeCategoryRule> _rules;
+
+    public TradeCategoryClassifier(IList<ITradeCategoryRule> rules)
+    {
+        _rules = rules;
+    }
+    
+    public TradeCategoryClassifier()
+    {
+        _rules = new List<ITradeCategoryRule>();
+    }
 
     public void AddRule(ITradeCategoryRule rule)
     {
